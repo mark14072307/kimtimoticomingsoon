@@ -1,94 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Coming Soon</title>
-  <style>
-    :root {
-      --main: #621244;
-      --accent: #9d1c6d;
-      --light: #ffffff;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Coming Soon — Launch</title>
+<style>
+  :root{
+    --main: #621244;
+    --accent: #9d1c6d;
+    --glass: rgba(255,255,255,0.06);
+    --glass-2: rgba(255,255,255,0.03);
+    --text: #ffeef8;
+    --muted: rgba(255,255,255,0.75);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{
+    background:
+      radial-gradient(1200px 500px at 10% 10%, rgba(255,255,255,0.025), transparent),
+      linear-gradient(180deg, #2a0512 0%, #12050a 60%, #070002 100%);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  .particles{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.9;
+    background-image:
+      radial-gradient(circle at 8% 20%, rgba(255,255,255,0.04) 0 1px, transparent 1px),
+      radial-gradient(circle at 35% 70%, rgba(255,255,255,0.03) 0 1px, transparent 1px),
+      radial-gradient(circle at 75% 30%, rgba(255,255,255,0.02) 0 1px, transparent 1px);
+    background-size: 120px 120px, 200px 200px, 160px 160px;
+    animation: subtleDrift 12s linear infinite;
+  }
+  @keyframes subtleDrift { from{transform:translateY(0)} 50%{transform:translateY(-8px)} to{transform:translateY(0)} }
 
-    * { box-sizing: border-box; }
+  .card {
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:760px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:18px;
+    padding:26px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 60px rgba(98,18,68,0.08);
+    border: 1px solid rgba(255,255,255,0.03);
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    align-items:center;
+    overflow:hidden;
+  }
+  .card:before{
+    content:"";
+    position:absolute; inset:0;
+    margin:-1px; border-radius:19px;
+    background: linear-gradient(90deg, rgba(98,18,68,0.22), rgba(157,28,109,0.12) 40%, transparent 65%);
+    filter: blur(18px);
+    z-index:0;
+    pointer-events:none;
+    opacity:0.8;
+  }
 
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      font-family: "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(-45deg, var(--main), var(--accent), #431033, #2d0822);
-      background-size: 400% 400%;
-      animation: gradientShift 12s ease infinite;
-      color: var(--light);
-      overflow: hidden;
-      text-align: center;
-    }
+  .content-row {
+    display:flex;
+    width:100%;
+    gap:20px;
+    align-items:center;
+    z-index:1;
+  }
+  .left {
+    width:160px; min-width:120px;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    text-align:center;
+  }
+  .ring-wrap{ width:120px; height:120px; display:grid; place-items:center; position:relative; }
+  svg.ring{ width:120px; height:120px; transform:rotate(-90deg); display:block; }
+  .ring-center{
+    position:absolute; inset:28px; display:flex; align-items:center; justify-content:center;
+    border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    font-weight:700; color:var(--text);
+  }
+  .icon{
+    width:34px;height:34px;border-radius:8px; display:grid; place-items:center;
+    background: linear-gradient(180deg,var(--main),var(--accent));
+  }
+  .right{ flex:1; z-index:1; display:flex; flex-direction:column; gap:8px;}
+  .headline{ margin:0; font-size:clamp(1.15rem, 2.6vw, 1.8rem); font-weight:700; display:flex; gap:12px;}
+  .typed{ color:var(--text); font-weight:600; border-right:2px solid rgba(255,255,255,0.18); white-space:nowrap; overflow:hidden; display:inline-block; width:0; }
+  .sub{ color:var(--muted); font-size:0.95rem; margin-top:4px; }
+  .meta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
+  .meta .pill{ font-size:0.82rem; padding:8px 10px; background:var(--glass-2); border-radius:999px; color:var(--muted) }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  /* year at bottom of card */
+  .year {
+    margin-top:auto;
+    font-size:1rem;
+    font-weight:600;
+    color:rgba(255,255,255,0.8);
+    z-index:1;
+  }
 
-    h1 {
-      font-size: 3rem;
-      margin: 0 0 10px 0;
-      z-index: 2;
-    }
-
-    p {
-      margin: 0 0 20px 0;
-      font-size: 1.2rem;
-      opacity: 0.9;
-      z-index: 2;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-      z-index: 2;
-    }
-
-    /* Animated circles background */
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-      animation: floatUp 20s linear infinite;
-    }
-
-    .circle:nth-child(1) { width: 120px; height: 120px; left: 15%; bottom: -150px; animation-duration: 25s; }
-    .circle:nth-child(2) { width: 200px; height: 200px; left: 70%; bottom: -200px; animation-duration: 30s; }
-    .circle:nth-child(3) { width: 80px; height: 80px; left: 40%; bottom: -100px; animation-duration: 18s; }
-    .circle:nth-child(4) { width: 150px; height: 150px; left: 85%; bottom: -180px; animation-duration: 22s; }
-    .circle:nth-child(5) { width: 100px; height: 100px; left: 5%; bottom: -120px; animation-duration: 20s; }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 0; }
-      20% { opacity: 0.4; }
-      50% { opacity: 0.7; }
-      100% { transform: translateY(-120vh) scale(1.4); opacity: 0; }
-    }
-  </style>
+  /* responsive */
+  @media (max-width:640px){
+    .content-row{ flex-direction:column; }
+    .left{ order:2; width:100%; }
+    .right{ order:1; text-align:center; }
+  }
+</style>
 </head>
 <body>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
+  <div class="particles"></div>
 
-  <h1>🚀 Coming Soon</h1>
-  <p>We’re almost ready. Stay tuned for something amazing!</p>
+  <div class="card">
+    <div class="content-row">
+      <div class="left">
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.04)" stroke-width="14" fill="none"></circle>
+            <circle id="progress" cx="60" cy="60" r="50" stroke="url(#g)" stroke-width="14" stroke-linecap="round" fill="none"
+              stroke-dasharray="314.159" stroke-dashoffset="314.159"></circle>
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffb3d9"/>
+                <stop offset="50%" stop-color="#f07fb7"/>
+                <stop offset="100%" stop-color="#621244"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="ring-center">
+            <div style="text-align:center">
+              <div class="icon">🚀</div>
+              <div id="percent" style="font-size:0.78rem">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <footer>© 2025 Kimti Moti Welfare & Social Trust</footer>
+      <div class="right">
+        <h1 class="headline">
+          <span>We are</span>
+          <span class="typed" id="typed"></span>
+        </h1>
+        <div class="sub">A fresh site is being prepared — lights, code and love.</div>
+        <div class="meta">
+          <div class="pill">Made with ♥</div>
+          <div class="pill">Color: <strong>#621244</strong></div>
+          <div class="pill" id="eta">ETA: calculating…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year inside card -->
+    <div class="year">© 2025 Kimti Moti Welfare & Social Trust</div>
+  </div>
+
+<script>
+(function(){
+  const launchAt = new Date(Date.now() + 15*24*60*60*1000);
+  const progressEl = document.getElementById('progress');
+  const percentEl = document.getElementById('percent');
+  const etaEl = document.getElementById('eta');
+  const typedEl = document.getElementById('typed');
+  const phrases = ["Preparing Launch", "Writing Code", "Testing Systems", "Almost There"];
+  let phraseIndex = 0;
+  const R=50, circumference=2*Math.PI*R;
+  progressEl.style.strokeDasharray = circumference;
+  const initTime = new Date();
+
+  function pad(n){return String(n).padStart(2,'0');}
+  function update(){
+    const now=new Date();
+    const total=launchAt-initTime, remaining=launchAt-now;
+    const percent=Math.max(0,Math.min(100,Math.round(100*(1-remaining/total))));
+    progressEl.style.strokeDashoffset = circumference*(1-percent/100);
+    percentEl.textContent=percent+"%";
+    if(remaining<=0){percentEl.textContent="100%";etaEl.textContent="Launched!";clearInterval(interval);}
+    else{
+      const s=Math.floor(remaining/1000);
+      const d=Math.floor(s/86400);
+      const h=Math.floor((s%86400)/3600);
+      const m=Math.floor((s%3600)/60);
+      etaEl.textContent=`ETA: ${d}d ${pad(h)}h ${pad(m)}m`;
+    }
+  }
+  function typeLoop(){
+    const phrase=phrases[phraseIndex]; let i=0;
+    typedEl.textContent=""; typedEl.style.width="0ch";
+    const fwd=setInterval(()=>{
+      typedEl.textContent=phrase.slice(0,++i);
+      typedEl.style.width=(i+1.2)+"ch";
+      if(i>=phrase.length){clearInterval(fwd); setTimeout(()=>{let j=phrase.length; const back=setInterval(()=>{typedEl.textContent=phrase.slice(0,--j);typedEl.style.width=(Math.max(0,j)+1.2)+"ch"; if(j<=0){clearInterval(back); phraseIndex=(phraseIndex+1)%phrases.length; setTimeout(typeLoop,400);} },30);},900);}
+    },60);
+  }
+  update(); const interval=setInterval(update,1000);
+  setTimeout(typeLoop,600);
+})();
+</script>
 </body>
 </html>
